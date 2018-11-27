@@ -1,0 +1,222 @@
+//
+//  main.c
+//  sep 3
+//
+//  Created by RISHAV SINGH MEHTA on 11/09/18.
+//  Copyright © 2018 RISHAV SINGH MEHTA. All rights reserved.
+//
+
+#include <stdio.h>
+#include <math.h>
+#include<stdlib.h>
+
+
+
+
+/* C program for Merge Sort */
+#include<stdlib.h>
+#include<stdio.h>
+
+// Merges two subarrays of arr[].
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]
+void merge(long int *arr,long int l,long int m,long int r)
+{
+    long int i, j, k;
+    long int n1 = m - l + 1;
+    long int n2 =  r - m;
+    
+    /* create temp arrays */
+    long int L[n1], R[n2];
+    
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = *(arr+l + i);
+    for (j = 0; j < n2; j++)
+        R[j] = *(arr+m + 1+ j);
+    
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            *(arr+k) = L[i];
+            i++;
+        }
+        else
+        {
+            *(arr+k) = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    /* Copy the remaining elements of L[], if there
+     are any */
+    while (i < n1)
+    {
+        *(arr+k) = L[i];
+        i++;
+        k++;
+    }
+    
+    /* Copy the remaining elements of R[], if there
+     are any */
+    while (j < n2)
+    {
+        *(arr+k) = R[j];
+        j++;
+        k++;
+    }
+}
+
+/* l is for left index and r is right index of the
+ sub-array of arr to be sorted */
+void mergeSort(long int *arr,long int l,long int r)
+{
+    if (l < r)
+    {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+       long int m = l+(r-l)/2;
+        
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m+1, r);
+        
+        merge(arr, l, m, r);
+    }
+} int main(int argc, const char * argv[]) {
+    // insert code here...
+    long int N,even=0,odd=0 ;
+    long int T,i,t,min,emin,omin,ser,sor,j,rol,rom,rel,rem,sot,set;
+    long long int d;
+
+    scanf("%ld",&T);
+    if (1<=T&&T<=10)
+    {
+        for (t=0;t<T;t++)
+        { odd=0;
+            even=0;
+            ser=0;
+            sor=0;
+            sot=0;
+            set=0;
+            scanf("%ld",&N);
+            if (1<=N && N<=pow(10,5))
+            {
+            long int *p=calloc(N+1,sizeof(long int));
+            long int *e=calloc(N+1,sizeof(long int));
+            long int *o=calloc(N+1,sizeof(long int));
+            
+            for (i=0;i<N;i++)
+            {
+                scanf("%ld",p+i);
+                
+                if (*(p+i)%2==0)
+                {*(e+even)=*(p+i);
+                    even=even+1;
+                    
+                }
+                else
+                {
+                  *(o+odd)=*(p+i);
+                    odd=odd+1;
+                }
+            }
+            
+            /*printing array*/
+            
+            mergeSort(e,0,even-1);
+            mergeSort(o,0,odd-1);
+                
+            
+            min=0;
+            emin=1;
+            omin=1;
+            for (i=0; i<even; i++)
+            {
+                if(((*(e+i))^(*(e+i+1)))==0)
+                {emin=emin+1;}
+                else
+                {
+                    ser=ser+(emin*(emin-1)/2);
+                    emin=1;
+                }
+                
+                if(((*(e+i))^(*(e+i+1)))==2)
+                {
+                    rel=1;
+                    rem=1;
+                    
+                    j=i;
+                    if ((j-1)>=0)
+                    {
+                        while (*(e+j)==(*(e+j-1)))
+                        {
+                            rel=rel+1;
+                            j=j-1;
+                            if (j<0)
+                            {break;}
+                        }
+                    }
+                    j=i+1;
+                    while (*(e+j)==(*(e+j+1)))
+                    {
+                        rem=rem+1;
+                        j=j+1;
+                    }
+                    set=set+rel*rem;
+                    
+                }
+            }
+            
+            for (i=0; i<odd; i++)
+            {
+                if(((*(o+i))^(*(o+i+1)))==0)
+                {omin=omin+1;}
+                else
+                {
+                    sor=sor+(omin*(omin-1)/2);
+                    omin=1;
+                }
+                if(((*(o+i))^(*(o+i+1)))==2)
+                {
+                    rol=1;
+                    rom=1;
+                    
+                    j=i;
+                    if ((j-1)>=0)
+                    {
+                       while (*(o+j)==(*(o+j-1)))
+                      {
+                        rol=rol+1;
+                        j=j-1;
+                        if (j<0)
+                        {break;}
+                      }
+                    }
+                      j=i+1;
+                      while (*(o+j)==(*(o+j+1)))
+                      {
+                        rom=rom+1;
+                        j=j+1;
+                      }
+                      sot=sot+rol*rom;
+                    
+                }
+                
+            }
+            d=((even*(even-1)/2)-ser-set)+((odd*(odd-1)/2)-sor-sot);
+            printf("%lld\n",d);
+            }
+            }
+        
+            
+        }
+        
+    }
+    
